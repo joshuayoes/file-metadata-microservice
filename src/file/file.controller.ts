@@ -15,7 +15,11 @@ export class FileController {
   @Post("/")
   @UseInterceptors(FileInterceptor("upfile"))
   fileAnalyse(@UploadedFile() upfile: RequestFile) {
-    if (!upfile?.originalname || !upfile?.mimetype || !upfile?.size) {
+    const isUnexpectedFile = !upfile?.originalname ||
+      !upfile?.mimetype ||
+      !upfile?.size;
+
+    if (isUnexpectedFile) {
       throw new BadRequestException("Invalid File");
     }
 
